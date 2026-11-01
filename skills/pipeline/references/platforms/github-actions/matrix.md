@@ -35,10 +35,18 @@ strategy:
       - os: windows-latest
 ```
 ## Test Sharding
+
+This POSIX-runner example assumes Playwright is already a reviewed project
+dev dependency pinned in the committed lockfile, and that the project's reviewed
+lockfile installation step has completed before this test step. Run the local
+project binary so a missing dependency fails instead of fetching a replacement.
+For another runner shell, use the project's reviewed, platform-appropriate local
+test script. See [npm exec's package-resolution behavior](https://docs.npmjs.com/cli/v11/commands/npm-exec/).
+
 ```yaml
 strategy:
   matrix:
     shard: [1, 2, 3, 4]
 steps:
-  - run: npx playwright test --shard=${{ matrix.shard }}/4
+  - run: ./node_modules/.bin/playwright test --shard=${{ matrix.shard }}/4
 ```
