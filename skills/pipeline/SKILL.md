@@ -14,3 +14,7 @@ Generate: read only the selected platform reference directory: references/platfo
 Audit: compare the APR and live config for drift; preserve platform idioms when they are deliberate. Test changes in a disposable branch or local runner before changing production triggers. A generated file, a syntax pass, a green run and an accepted deployment are distinct results. Installing this skill does not authorize publishing, provisioning secrets or releasing software.
 
 The original scout/architect/auditor/platform-generator agents and automation recipes remain optional Amplifier adapters. They carry the original platform-specific mechanisms; the portable method and schema work in an ordinary coding agent.
+
+## Optional coaching checkpoint
+
+Read [the local coaching guide](references/coaching-session.v1.md) only when the person asks for practice or optional session bookkeeping. Keep direct artifact production available; agree a small budget, preserve the baseline and stop on goal, user exit or no meaningful gain.
