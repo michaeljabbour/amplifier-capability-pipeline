@@ -2,11 +2,11 @@
 
 Build the pipeline your project actually needs.
 
-Watch the [72-second film](https://michaeljabbour.github.io/amplifier-skill-pipeline/#film): a template that ships a release nobody asked for, and how the skill builds only the pipeline you need. The example in it is fictional.
+Watch the [72-second film](https://michaeljabbour.github.io/amplifier-capability-pipeline/#film): a template that ships a release nobody asked for, and how the skill builds only the pipeline you need. The example in it is fictional.
 
 For developers creating, repairing or moving CI. Pipeline starts with your real commands and artifact consumers, makes job dependencies reviewable and then generates configuration for the selected platform.
 
-[Explore the site](https://michaeljabbour.github.io/amplifier-skill-pipeline/)
+[Explore the site](https://michaeljabbour.github.io/amplifier-capability-pipeline/)
 
 ## What you get
 
@@ -17,8 +17,8 @@ For developers creating, repairing or moving CI. Pipeline starts with your real 
 ## Start here
 
 ```sh
-git clone https://github.com/michaeljabbour/amplifier-skill-pipeline.git
-cd amplifier-skill-pipeline
+git clone https://github.com/michaeljabbour/amplifier-capability-pipeline.git
+cd amplifier-capability-pipeline
 python3 scripts/capability.py install --dest ~/.agents/skills
 ```
 
