@@ -21,6 +21,30 @@ def fixture():
 
 
 class DependencyShapeTests(unittest.TestCase):
+    def test_falsey_top_level_non_arrays_are_not_empty_declarations(self):
+        for field in ("secrets", "artifacts", "environments"):
+            for value in (False, 0, "", {}):
+                with self.subTest(field=field, value=value):
+                    doc = fixture()
+                    doc["apr"][field] = value
+                    result = apr.validate(doc)
+                    self.assertFalse(result["valid"], result)
+                    self.assertIn(field.capitalize() + " must be an array", result["errors"])
+
+    def test_optional_empty_and_real_declarations_preserve_valid_references(self):
+        for field in ("secrets", "artifacts", "environments"):
+            for value in (None, []):
+                doc = fixture()
+                doc["apr"][field] = value
+                self.assertTrue(apr.validate(doc)["valid"])
+        doc = fixture()
+        doc["apr"]["secrets"] = [{"name": "FICTIONAL_TOKEN", "required_for": ["verify-job"]}]
+        doc["apr"]["stages"][1]["jobs"][0]["steps"][0]["secrets"] = ["FICTIONAL_TOKEN"]
+        doc["apr"]["artifacts"] = [{"name": "fixture", "produced_by": "inspect-job", "consumed_by": ["verify-job"]}]
+        doc["apr"]["environments"] = [{"name": "staging", "requires_approval": True}]
+        doc["apr"]["stages"][1]["environment"] = "staging"
+        self.assertTrue(apr.validate(doc)["valid"])
+
     def test_falsey_non_arrays_are_rejected_without_erasing_edges(self):
         for level in ("stage", "job"):
             for value in (False, 0, "", {}):

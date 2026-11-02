@@ -70,7 +70,8 @@ def validate(doc):
         for sn in sg.get(jobstage[n],[]):combined[n].extend(x for x in jobs if jobstage[x]==sn)
     if cyclic(sg):errors.append('Stage dependency cycle')
     if cyclic(combined):errors.append('Job/stage dependency cycle')
-    secrets=a.get('secrets') or []
+    secrets=a.get('secrets')
+    if secrets is None:secrets=[]
     if not isinstance(secrets,list):errors.append('Secrets must be an array');secrets=[]
     secret_names={x.get('name') for x in secrets if isinstance(x,dict) and isinstance(x.get('name'),str)}
     for s in secrets:
@@ -82,12 +83,18 @@ def validate(doc):
             if isinstance(step,dict):
                 for name in step.get('secrets') or []:
                     if name not in secret_names:errors.append(f'Undeclared secret {name} in {n}')
-    for item in a.get('artifacts') or []:
+    artifacts=a.get('artifacts')
+    if artifacts is None:artifacts=[]
+    if not isinstance(artifacts,list):errors.append('Artifacts must be an array');artifacts=[]
+    for item in artifacts:
         if not isinstance(item,dict):errors.append('Invalid artifact declaration');continue
         if item.get('produced_by') not in jobs:errors.append('Artifact producer missing: '+str(item.get('name')))
         for n in item.get('consumed_by') or []:
             if n not in jobs:errors.append('Artifact consumer missing: '+str(n))
-    envs={e.get('name'):e for e in (a.get('environments') or []) if isinstance(e,dict)}
+    environments=a.get('environments')
+    if environments is None:environments=[]
+    if not isinstance(environments,list):errors.append('Environments must be an array');environments=[]
+    envs={e.get('name'):e for e in environments if isinstance(e,dict)}
     for n,s in stage_names.items():
         if s.get('environment') and s['environment'] not in envs:errors.append('Undeclared stage environment: '+n)
     return {'format':'apr-validation/1','valid':not errors,'errors':errors,'stages':len(stage_names),'jobs':len(jobs),
