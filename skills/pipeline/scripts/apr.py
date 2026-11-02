@@ -34,7 +34,8 @@ def validate(doc):
         n=s['name']
         if n in stage_names:errors.append('Duplicate stage: '+n)
         stage_names[n]=s
-        dep=s.get('depends_on') or []
+        dep=s.get('depends_on')
+        if dep is None:dep=[]  # Omitted/null is allowed by the retained schema.
         if not isinstance(dep,list) or any(not isinstance(x,str) for x in dep):errors.append('Stage dependencies must be names: '+n);dep=[]
         sg[n]=dep
         if not isinstance(s.get('jobs'),list) or not s['jobs']:errors.append('Stage has no jobs: '+n);continue
@@ -44,7 +45,8 @@ def validate(doc):
             name=j['name']
             if name in jobs:errors.append('Duplicate global job name: '+name)
             jobs[name]=j;jobstage[name]=n
-            deps=j.get('depends_on') or []
+            deps=j.get('depends_on')
+            if deps is None:deps=[]
             if not isinstance(deps,list) or any(not isinstance(x,str) for x in deps):errors.append('Job dependencies must be names: '+name);deps=[]
             jg[name]=deps
             if not isinstance(j.get('timeout_minutes'),int) or isinstance(j.get('timeout_minutes'),bool) or not 1<=j['timeout_minutes']<=360:

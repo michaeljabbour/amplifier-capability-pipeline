@@ -45,6 +45,14 @@ The worked examples on the site are fictional. They illustrate the output and de
 
 ## Retained source guide
 
+The following section preserves the original bundle's design goals and entry
+points. They are not current acceptance results or permission to manage secrets,
+publish artifacts, or deploy. The packaged APR checker validates structural
+references and dependency cycles; it does not prove native trigger, approval,
+artifact-transfer or platform semantics. A migration needs an explicit semantic
+loss report, native validation and a successful authorized run before claiming
+equivalence. Keep those checks separate from this historical description.
+
 ### amplifier-bundle-cicd
 
 An Amplifier application bundle that designs, generates, audits, and maintains CI/CD pipelines for applications.
